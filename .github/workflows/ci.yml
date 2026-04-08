@@ -30,6 +30,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+
   deploy:
     name: Deploy to Azure app services
     runs-on: ubuntu-latest
@@ -49,8 +55,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build the app
-        run: npm run build
+      - name: Download build artifact from test job
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: dist/
 
       - name: Deploy to Azure web app
         uses: azure/webapps-deploy@v3
