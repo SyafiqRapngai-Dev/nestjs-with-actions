@@ -10,7 +10,7 @@ import {
 import { TasksService } from './tasks.service';
 import type { Task } from './task.interface';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDTO } from './dto/update-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -32,7 +32,7 @@ export class TasksController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDTO): Task {
+  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto): Task {
     return this.tasksService.update(id, updateTaskDto);
   }
 

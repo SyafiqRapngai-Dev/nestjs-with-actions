@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Task } from './task.interface';
 import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDTO } from './dto/update-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -12,7 +12,7 @@ export class TasksService {
     return this.tasks;
   }
 
-  findOne(id: String): Task {
+  findOne(id: string): Task {
     const task = this.tasks.find((t) => t.id === id);
 
     if (!task) throw new NotFoundException(`Task with id ${id} is not found`);
@@ -31,7 +31,7 @@ export class TasksService {
     return newTask;
   }
 
-  update(id: string, updateTaskDto: UpdateTaskDTO): Task {
+  update(id: string, updateTaskDto: UpdateTaskDto): Task {
     const task = this.findOne(id);
 
     Object.assign(task, updateTaskDto);
