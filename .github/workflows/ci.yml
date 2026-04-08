@@ -22,6 +22,9 @@ jobs:
       fail-fast: false
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup nodeJS project
         uses: ./.github/actions/setup-node-project
         with:
@@ -50,6 +53,9 @@ jobs:
       cancel-in-progress: true
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup nodeJS project
         uses: ./.github/actions/setup-node-project
         with:
