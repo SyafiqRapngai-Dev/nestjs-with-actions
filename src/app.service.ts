@@ -7,6 +7,6 @@ export class AppService {
   }
 
   getHealth(): string {
-    return 'Healthy! Added workflow call!';
+    return 'Healthy! Added workflow call! Added OIDC too!';
   }
 }
