@@ -1,0 +1,16 @@
+name: Dist Validator
+description: Validates that the NestJS build output in dist/ is sane
+
+inputs:
+  dist-path:
+    description: Path to compiled dist folder to validate
+    required: false
+    default: 'dist/'
+
+outputs:
+  file-count:
+    description: Number of .js files found in the dist folder
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

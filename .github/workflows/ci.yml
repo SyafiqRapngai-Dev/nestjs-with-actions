@@ -46,6 +46,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Validate build output
+        uses: ./.github/actions/dist-validator
+        with:
+          dist-path: 'dist/'
+
       - name: Write build summary
         uses: ./.github/actions/build-summary
         with:
