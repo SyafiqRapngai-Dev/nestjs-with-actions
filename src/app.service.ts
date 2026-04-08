@@ -7,6 +7,6 @@ export class AppService {
   }
 
   getHealth(): string {
-    return 'Healthy! Added gugugaga';
+    return 'Healthy! Added workflow call!';
   }
 }

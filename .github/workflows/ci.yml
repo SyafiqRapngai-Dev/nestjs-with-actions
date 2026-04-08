@@ -13,6 +13,10 @@ on:
         type: string
 
 jobs:
+  logging:
+    uses: './.github/workflows/logging.yml'
+    with:
+      stand-name: 'Za Warudo'
   test:
     name: Install and test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest

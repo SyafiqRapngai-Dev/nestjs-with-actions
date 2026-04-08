@@ -1,0 +1,18 @@
+name: Simple logging
+
+on:
+  workflow_call:
+    inputs:
+      stand-name:
+        description: Add a stand's name
+        required: false
+        default: Star Platinum
+        type: string
+
+jobs:
+  log:
+    name: Log Hello Za Warudo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Just log
+        run: echo "Za Warudo! Tokio Tomare - Node ${{ inputs.stand-name }}"
