@@ -1,0 +1,8 @@
+name: Package reporter
+description: Simple action to give info about the packages
+outputs:
+  app-version:
+    description: 'The version field of package.json'
+runs:
+  using: node20
+  main: dist/index.js
