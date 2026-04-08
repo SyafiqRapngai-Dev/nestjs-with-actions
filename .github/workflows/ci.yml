@@ -8,8 +8,12 @@ on:
 
 jobs:
   test:
-    name: Install and test
+    name: Install and test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+      fail-fast: false
 
     steps:
       - name: Checkout code
@@ -18,14 +22,14 @@ jobs:
       - name: Set up nodeJS
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --ci
 
       - name: Build
         run: npm run build
@@ -33,7 +37,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-output
+          name: build-output-${{ matrix.node-version }}
           path: dist/
 
   deploy:
@@ -58,7 +62,7 @@ jobs:
       - name: Download build artifact from test job
         uses: actions/download-artifact@v4
         with:
-          name: build-output
+          name: build-output-22
           path: dist/
 
       - name: Deploy to Azure web app
