@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual deployment'
+        required: true
+        type: string
 
 jobs:
   test:
@@ -46,8 +52,14 @@ jobs:
     needs: test
     environment: production
     if: github.ref == 'refs/heads/main'
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: true
 
     steps:
+      - name: Log deployment
+        run: echo "Manual deploy triggered. Reason- ${{ inputs.reason }}"
+
       - name: Test annotation
         run: echo "::notice::Deploy job started successfully on environment production"
 
