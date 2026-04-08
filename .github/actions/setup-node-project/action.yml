@@ -7,6 +7,11 @@ inputs:
     required: false
     default: '22'
 
+outputs:
+  actual-node-version:
+    description: Actual granular NodeJS version used
+    value: ${{ steps.capture-version.outputs.actual-node-version }}
+
 runs:
   using: 'composite'
   steps:
@@ -18,4 +23,9 @@ runs:
 
     - name: Install dependencies
       run: npm ci
+      shell: bash
+
+    - name: Capture actual node version
+      id: capture-version
+      run: echo "actual-node-version=$(node --version)" >> $GITHUB_OUTPUT
       shell: bash

@@ -1,0 +1,23 @@
+name: Build summary
+description: Creates a build summary for the job
+
+inputs:
+  node-version:
+    description: Actual node version used
+    required: true
+
+  test-result:
+    description: Test result
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Write to GITHUB STEP SUMMARY
+      run: |
+        echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "| Field        | Value         |" >> $GITHUB_STEP_SUMMARY
+        echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+        echo "| Node Version | ${{ inputs.node-version }}      |" >> $GITHUB_STEP_SUMMARY
+        echo "| Tests        | ${{ inputs.test-result }} ✅     |" >> $GITHUB_STEP_SUMMARY
+      shell: bash
