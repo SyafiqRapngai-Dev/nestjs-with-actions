@@ -13,6 +13,9 @@ on:
         type: string
         default: 'just because'
 
+permissions:
+  contents: read
+
 jobs:
   logging:
     uses: './.github/workflows/logging.yml'
@@ -28,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4
 
       - name: Report package info
         id: pkg-report
@@ -58,4 +61,5 @@ jobs:
           test-result: 'passed'
 
       - name: Log installed Node version
+        if: github.event_name == 'workflow_dispatch'
         run: echo "Actual node version installed was ${{ steps.node-setup.outputs.actual-node-version }}"
