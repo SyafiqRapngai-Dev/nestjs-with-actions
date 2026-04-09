@@ -1,46 +1,42 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Task } from './task.interface';
-import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Task } from './task.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
-  private tasks: Task[] = [];
+  constructor(
+    @InjectRepository(Task) private readonly taskRepository: Repository<Task>,
+  ) {}
 
-  findAll(): Task[] {
-    return this.tasks;
+  async findAll(): Promise<Task[]> {
+    return this.taskRepository.find();
   }
 
-  findOne(id: string): Task {
-    const task = this.tasks.find((t) => t.id === id);
-
-    if (!task) throw new NotFoundException(`Task with id ${id} is not found`);
-
+  async findOne(id: string): Promise<Task> {
+    const task = await this.taskRepository.findOneBy({ id });
+    if (!task)
+      throw new NotFoundException(`Error: Task with id ${id} is not found`);
     return task;
   }
 
-  create(createTaskDto: CreateTaskDto): Task {
-    const newTask: Task = {
-      id: uuid(),
-      title: createTaskDto.title,
-      done: createTaskDto.done ?? false,
-    };
-
-    this.tasks.push(newTask);
+  async create(createTaskDto: CreateTaskDto): Promise<Task> {
+    const newTask = this.taskRepository.create(createTaskDto);
+    await this.taskRepository.save(newTask);
     return newTask;
   }
 
-  update(id: string, updateTaskDto: UpdateTaskDto): Task {
-    const task = this.findOne(id);
+  async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    const task = await this.findOne(id);
 
     Object.assign(task, updateTaskDto);
-
-    return task;
+    return this.taskRepository.save(task);
   }
 
-  delete(id: string): void {
-    this.findOne(id);
-    this.tasks = this.tasks.filter((t) => t.id !== id);
+  async delete(id: string): Promise<void> {
+    await this.findOne(id);
+    await this.taskRepository.delete(id);
   }
 }
