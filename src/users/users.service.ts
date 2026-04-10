@@ -38,4 +38,15 @@ export class UsersService {
   async findByEmail(email: string): Promise<User | null> {
     return this.userRepository.findOneBy({ email });
   }
+
+  async findById(id: string): Promise<User | null> {
+    return this.userRepository.findOneBy({ id });
+  }
+
+  async updateRefreshToken(
+    userId: string,
+    hashedToken: string | null,
+  ): Promise<void> {
+    await this.userRepository.update(userId, { refreshToken: hashedToken });
+  }
 }

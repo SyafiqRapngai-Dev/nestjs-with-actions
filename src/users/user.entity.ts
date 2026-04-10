@@ -10,4 +10,7 @@ export class User {
 
   @Column()
   password!: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  refreshToken!: string | null;
 }
